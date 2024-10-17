@@ -1,37 +1,47 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { connectDatabase } from '@/db'
+import { migrateDbIfNeeded } from '@/db/migrate'
+import { databaseName } from '@/env'
+import { useColorScheme } from '@/hooks/useColorScheme'
+import defaultConfig from '@tamagui/config/v3'
+import { ToastProvider } from '@tamagui/toast'
+import { useFonts } from 'expo-font'
+import { Stack } from 'expo-router'
+import * as SplashScreen from 'expo-splash-screen'
+import { SQLiteProvider } from 'expo-sqlite'
+import { useEffect } from 'react'
+import { createTamagui, TamaguiProvider } from 'tamagui'
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+const config = createTamagui(defaultConfig)
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+    useEffect(() => {
+        connectDatabase()
+    }, [])
 
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
-  );
+    return (
+        <ToastProvider>
+            <TamaguiProvider config={config}>
+                <SQLiteProvider
+                    databaseName={databaseName}
+                    onInit={migrateDbIfNeeded}
+                    onError={error => console.log(error)}
+                >
+                    <Stack>
+                        <Stack.Screen
+                            name="index"
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            options={{ title: 'Log new tought' }}
+                            name="log-thought-screen.tsx/index"
+                        />
+                        <Stack.Screen name="+not-found" />
+                    </Stack>
+                </SQLiteProvider>
+            </TamaguiProvider>
+        </ToastProvider>
+    )
 }
