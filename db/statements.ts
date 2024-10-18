@@ -14,7 +14,7 @@ export const insertThought = async (
                 formValues.thoughts,
                 formValues.behaviors,
                 formValues.alternate_thought,
-                new Date().toISOString()
+                new Date().toISOString(),
             ]
         )
 
@@ -82,4 +82,8 @@ export async function getAllThoughs(db: SQLiteDatabase) {
         })
     })
     return result
+}
+
+export async function deleteItem(db: SQLiteDatabase, id: number) {
+    await db.runAsync(`DELETE FROM thoughts_logs WHERE id = ?`, [id])
 }

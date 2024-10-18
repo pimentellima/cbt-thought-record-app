@@ -204,6 +204,7 @@ function StepOne({
                 value={situation}
                 marginTop={'$4'}
                 minHeight={'50%'}
+                verticalAlign='top'
                 fontSize={'$6'}
                 width={'100%'}
                 id="question-1"
@@ -237,6 +238,7 @@ function StepTwo({
                 value={thoughts}
                 marginTop={'$4'}
                 minHeight={'50%'}
+                verticalAlign='top'
                 fontSize={'$6'}
                 width={'100%'}
                 id="question-2"
@@ -340,7 +342,7 @@ function StepThree({
                         </YStack>
                     </ScrollView>
                 </YStack>
-                <YStack marginTop="$6" gap="$3">
+                <YStack paddingHorizontal="$2" marginTop="$6" gap="$3">
                     {emotions.map((emotion) => (
                         <EmotionSlider
                             key={emotion.name + '-start'}
@@ -392,6 +394,7 @@ function StepFour({
                 onChangeText={setBehaviors}
                 value={behaviors}
                 minHeight={'50%'}
+                verticalAlign='top'
                 marginTop={'$4'}
                 fontSize={'$6'}
                 width={'100%'}
@@ -429,6 +432,7 @@ function StepFive({
                 marginTop={'$4'}
                 fontSize={'$6'}
                 minHeight={'50%'}
+                verticalAlign='top'
                 width={'100%'}
                 id="question-5"
                 placeholder="type here..."
@@ -453,7 +457,7 @@ function StepSix({
             >
                 How do you feel now?
             </Label>
-            <YStack marginTop="$6" gap="$3">
+            <YStack marginTop="$6" gap="$3" paddingHorizontal="#3">
                 {emotions.map((emotion) => (
                     <EmotionSlider
                         key={emotion.name + '-start'}
