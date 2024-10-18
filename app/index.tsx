@@ -44,13 +44,14 @@ export default function HomeScreen() {
             <ToastViewport>
                 <ToastSubmitThought />
             </ToastViewport>
-            <View padding="$10" backgroundColor={'lightgrey'}>
+            <View paddingTop="$10" paddingHorizontal='$5' backgroundColor={'$background0'}>
                 <YStack gap="$2">
                     <Link href="/log-thought-screen.tsx" asChild>
                         <Button
                             iconAfter={<PlusIcon />}
                             size="$5"
                             theme={'yellow'}
+                            fontWeight={'800'}
                         >
                             {thoughtLogs.length === 0
                                 ? 'Add your first thought'
@@ -167,14 +168,14 @@ function ThoughtLogItem({
                     </View>
                 </View>
                 <View
-                    width={300}
+                    width={400}
                     height="100%"
                     justifyContent="center"
                     alignItems="flex-start"
                     paddingLeft={30}
                     backgroundColor={'red'}
                     position="absolute"
-                    right={-300}
+                    right={-400}
                 >
                     <TouchableOpacity
                         activeOpacity={0.8}
