@@ -51,7 +51,7 @@ export default function RootLayout() {
                         />
                         <Stack.Screen
                             options={{ title: 'Log new tought' }}
-                            name="log-thought-screen.tsx/index"
+                            name="log-thought-screen/index"
                         />
                         <Stack.Screen name="+not-found" />
                     </Stack>

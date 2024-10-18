@@ -46,7 +46,7 @@ export default function HomeScreen() {
             </ToastViewport>
             <View paddingTop="$10" paddingHorizontal='$5' backgroundColor={'$background0'}>
                 <YStack gap="$2">
-                    <Link href="/log-thought-screen.tsx" asChild>
+                    <Link href="/log-thought-screen" asChild>
                         <Button
                             iconAfter={<PlusIcon />}
                             size="$5"
