@@ -35,7 +35,7 @@ export const insertThought = async (
     })
 }
 
-export async function getAllThoughs(db: SQLiteDatabase) {
+export async function getAllLogs(db: SQLiteDatabase) {
     let result: ThoughtLog[] = []
     await db.withTransactionAsync(async () => {
         const thoughtLogs = (await db.getAllAsync(
@@ -84,6 +84,39 @@ export async function getAllThoughs(db: SQLiteDatabase) {
     return result
 }
 
-export async function deleteItem(db: SQLiteDatabase, id: number) {
+export async function deleteLog(db: SQLiteDatabase, id: number) {
     await db.runAsync(`DELETE FROM thoughts_logs WHERE id = ?`, [id])
+}
+
+export async function getLog(
+    db: SQLiteDatabase,
+    id: number
+): Promise<ThoughtLog> {
+    const result = (await db.getFirstAsync(
+        `SELECT * FROM thoughts_logs WHERE id = ?`,
+        [id]
+    )) as {
+        id: number
+        situation: string
+        thoughts: string
+        behaviors: string
+        alternate_thought: string
+        created_at: string
+    }
+    const emotions = await db.getAllAsync<{
+        id: number
+        form_id: number
+        name: string
+        intensity_start: number
+        intensity_end: number
+    }>(`SELECT * FROM emotions WHERE form_id = ?`, id)
+
+    return {
+        ...result,
+        emotions: emotions.map((emotion) => ({
+            intensityEnd: emotion.intensity_end,
+            intensityStart: emotion.intensity_start,
+            name: emotion.name,
+        })),
+    }
 }

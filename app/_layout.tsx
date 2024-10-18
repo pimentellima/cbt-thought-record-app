@@ -8,10 +8,10 @@ import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { SQLiteProvider } from 'expo-sqlite'
 import { useEffect } from 'react'
-import { TamaguiProvider } from 'tamagui'
-import { LogBox } from 'react-native';
-LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
-LogBox.ignoreAllLogs();//Ignore all log notifications
+import { TamaguiProvider, View } from 'tamagui'
+import { LogBox } from 'react-native'
+LogBox.ignoreLogs(['Warning: ...']) // Ignore log notification by message
+LogBox.ignoreAllLogs() //Ignore all log notifications
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
@@ -47,11 +47,15 @@ export default function RootLayout() {
                     <Stack>
                         <Stack.Screen
                             name="index"
-                            options={{ headerShown: false }}
+                            options={{ headerShown: false, title: 'Home' }}
                         />
                         <Stack.Screen
                             options={{ title: 'Log new tought' }}
                             name="log-thought-screen/index"
+                        />
+                        <Stack.Screen
+                            options={{ title: 'View log' }}
+                            name="[thought-log]/index"
                         />
                         <Stack.Screen name="+not-found" />
                     </Stack>
