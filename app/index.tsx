@@ -21,7 +21,6 @@ import ToastSubmitThought from './toast-submit-thought'
 export default function HomeScreen() {
     const db = useSQLiteContext()
     const [thoughtLogs, setThoughtLogs] = useState<ThoughtLog[]>([])
-    const [scrollingEnabled, setScrollingEnabled] = useState(true)
 
     async function getThoughts() {
         try {
@@ -46,7 +45,7 @@ export default function HomeScreen() {
                 <ToastSubmitThought />
             </ToastViewport>
             <View
-                paddingTop="$10"
+                paddingTop="$3"
                 paddingHorizontal="$5"
                 backgroundColor={'$background0'}
             >
@@ -64,14 +63,10 @@ export default function HomeScreen() {
                         </Button>
                     </Link>
                     <FlatList
-                        scrollEnabled={scrollingEnabled}
                         style={{ height: '100%' }}
                         data={thoughtLogs}
                         renderItem={({ item }) => (
                             <ThoughtLogItem
-                                setScrollingEnabled={(enabled) =>
-                                    setScrollingEnabled(enabled)
-                                }
                                 onDeleteThought={() => getThoughts()}
                                 log={item}
                             />
@@ -86,28 +81,27 @@ export default function HomeScreen() {
 function ThoughtLogItem({
     log,
     onDeleteThought,
-    setScrollingEnabled,
 }: {
     log: ThoughtLog
     onDeleteThought: () => void
-    setScrollingEnabled: (enabled: boolean) => void
 }) {
     const db = useSQLiteContext()
     const translateX = useRef(new Animated.Value(0)).current
     const panResponder = useRef(
         PanResponder.create({
-            onStartShouldSetPanResponder: () => true,
-            onMoveShouldSetPanResponder: () => true,
-            onMoveShouldSetPanResponderCapture: (evt, gestureState) => {
-                return gestureState.dx != 0 && gestureState.dy != 0
-            },
+            onStartShouldSetPanResponder: (e, state) => false,
+            onStartShouldSetPanResponderCapture: (e, state) => false,
+            onMoveShouldSetPanResponder: (e, state) => true,
+            onMoveShouldSetPanResponderCapture: (e, state) => true,
+
+            onShouldBlockNativeResponder: (evt, gestureState) => false,
+            onPanResponderTerminationRequest: () => false,
             onPanResponderMove: (_, gestureState) => {
                 if (gestureState.dx < 0) {
                     translateX.setValue(gestureState.dx)
                 }
             },
             onPanResponderRelease: (_, gestureState) => {
-                setScrollingEnabled(true)
                 if (gestureState.dx < -50) {
                     Animated.spring(translateX, {
                         toValue: -100,
@@ -119,10 +113,6 @@ function ThoughtLogItem({
                         useNativeDriver: true,
                     }).start()
                 }
-            },
-            onPanResponderGrant: () => {
-                // Disable FlatList scrolling when the user starts swiping
-                setScrollingEnabled(false)
             },
         })
     ).current
@@ -226,3 +216,212 @@ function ThoughtLogItem({
         </View>
     )
 }
+
+const mockLogs = [
+    {
+        id: 1,
+        situation: 'Feeling overwhelmed at work',
+        thoughts: "I'll never be able to finish everything on time.",
+        emotions: [
+            {
+                name: 'Stress',
+                intensityStart: 80,
+                intensityEnd: 50,
+            },
+            {
+                name: 'Anxiety',
+                intensityStart: 70,
+                intensityEnd: 40,
+            },
+        ],
+        behaviors: 'Avoiding tasks and procrastinating',
+        alternate_thought:
+            'I can break down tasks into smaller steps and prioritize them.',
+        created_at: '2022-10-15T09:30:00',
+    },
+    {
+        id: 2,
+        situation: 'Argument with a friend',
+        thoughts: "They don't care about me.",
+        emotions: [
+            {
+                name: 'Sadness',
+                intensityStart: 90,
+                intensityEnd: 60,
+            },
+            {
+                name: 'Anger',
+                intensityStart: 80,
+                intensityEnd: 30,
+            },
+        ],
+        behaviors: 'Isolating myself',
+        alternate_thought: 'Maybe they are going through a tough time too.',
+        created_at: '2022-10-16T15:45:00',
+    },
+    {
+        id: 3,
+        situation: 'Public speaking event',
+        thoughts: 'I will embarrass myself in front of everyone.',
+        emotions: [
+            {
+                name: 'Fear',
+                intensityStart: 95,
+                intensityEnd: 40,
+            },
+            {
+                name: 'Nervousness',
+                intensityStart: 85,
+                intensityEnd: 30,
+            },
+        ],
+        behaviors: 'Avoiding eye contact and speaking too fast',
+        alternate_thought: 'I have prepared well and can handle this.',
+        created_at: '2022-10-17T18:20:00',
+    },
+    {
+        id: 4,
+        situation: 'Feeling lonely',
+        thoughts: 'Nobody cares about me.',
+        emotions: [
+            {
+                name: 'Sadness',
+                intensityStart: 90,
+                intensityEnd: 50,
+            },
+            {
+                name: 'Isolation',
+                intensityStart: 80,
+                intensityEnd: 40,
+            },
+        ],
+        behaviors: 'Withdrawn from social interactions',
+        alternate_thought:
+            'I can reach out to a friend or family member for support.',
+        created_at: '2022-10-18T12:10:00',
+    },
+    {
+        id: 5,
+        situation: 'Feeling overwhelmed with household chores',
+        thoughts: "I'll never get everything done.",
+        emotions: [
+            {
+                name: 'Stress',
+                intensityStart: 85,
+                intensityEnd: 60,
+            },
+            {
+                name: 'Anxiety',
+                intensityStart: 75,
+                intensityEnd: 50,
+            },
+        ],
+        behaviors: 'Avoiding chores and feeling guilty',
+        alternate_thought:
+            'I can create a schedule and tackle tasks one at a time.',
+        created_at: '2022-10-19T08:00:00',
+    },
+    {
+        id: 11,
+        situation: 'Feeling overwhelmed at work',
+        thoughts: "I'll never be able to finish everything on time.",
+        emotions: [
+            {
+                name: 'Stress',
+                intensityStart: 80,
+                intensityEnd: 50,
+            },
+            {
+                name: 'Anxiety',
+                intensityStart: 70,
+                intensityEnd: 40,
+            },
+        ],
+        behaviors: 'Avoiding tasks and procrastinating',
+        alternate_thought:
+            'I can break down tasks into smaller steps and prioritize them.',
+        created_at: '2022-10-15T09:30:00',
+    },
+    {
+        id: 12,
+        situation: 'Argument with a friend',
+        thoughts: "They don't care about me.",
+        emotions: [
+            {
+                name: 'Sadness',
+                intensityStart: 90,
+                intensityEnd: 60,
+            },
+            {
+                name: 'Anger',
+                intensityStart: 80,
+                intensityEnd: 30,
+            },
+        ],
+        behaviors: 'Isolating myself',
+        alternate_thought: 'Maybe they are going through a tough time too.',
+        created_at: '2022-10-16T15:45:00',
+    },
+    {
+        id: 13,
+        situation: 'Public speaking event',
+        thoughts: 'I will embarrass myself in front of everyone.',
+        emotions: [
+            {
+                name: 'Fear',
+                intensityStart: 95,
+                intensityEnd: 40,
+            },
+            {
+                name: 'Nervousness',
+                intensityStart: 85,
+                intensityEnd: 30,
+            },
+        ],
+        behaviors: 'Avoiding eye contact and speaking too fast',
+        alternate_thought: 'I have prepared well and can handle this.',
+        created_at: '2022-10-17T18:20:00',
+    },
+    {
+        id: 14,
+        situation: 'Feeling lonely',
+        thoughts: 'Nobody cares about me.',
+        emotions: [
+            {
+                name: 'Sadness',
+                intensityStart: 90,
+                intensityEnd: 50,
+            },
+            {
+                name: 'Isolation',
+                intensityStart: 80,
+                intensityEnd: 40,
+            },
+        ],
+        behaviors: 'Withdrawn from social interactions',
+        alternate_thought:
+            'I can reach out to a friend or family member for support.',
+        created_at: '2022-10-18T12:10:00',
+    },
+    {
+        id: 15,
+        situation: 'Feeling overwhelmed with household chores',
+        thoughts: "I'll never get everything done.",
+        emotions: [
+            {
+                name: 'Stress',
+                intensityStart: 85,
+                intensityEnd: 60,
+            },
+            {
+                name: 'Anxiety',
+                intensityStart: 75,
+                intensityEnd: 50,
+            },
+        ],
+        behaviors: 'Avoiding chores and feeling guilty',
+        alternate_thought:
+            'I can create a schedule and tackle tasks one at a time.',
+        created_at: '2022-10-19T08:00:00',
+    },
+]

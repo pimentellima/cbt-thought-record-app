@@ -8,8 +8,17 @@ import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { SQLiteProvider } from 'expo-sqlite'
 import { useEffect } from 'react'
-import { TamaguiProvider, View } from 'tamagui'
+import { TamaguiProvider, Text, View } from 'tamagui'
 import { LogBox } from 'react-native'
+import {
+    Header,
+    LargeHeader,
+    ScalingView,
+    ScrollViewWithHeaders,
+} from '@codeherence/react-native-header'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { SharedValue } from 'react-native-reanimated'
+
 LogBox.ignoreLogs(['Warning: ...']) // Ignore log notification by message
 LogBox.ignoreAllLogs() //Ignore all log notifications
 
@@ -47,7 +56,9 @@ export default function RootLayout() {
                     <Stack>
                         <Stack.Screen
                             name="index"
-                            options={{ headerShown: false, title: 'Home' }}
+                            options={{
+                                title: 'Home',
+                            }}
                         />
                         <Stack.Screen
                             options={{ title: 'Log new tought' }}
