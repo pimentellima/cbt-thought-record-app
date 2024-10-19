@@ -71,13 +71,15 @@ export default function HomeScreen() {
                 shadowOpacity={0.7}
                 backgroundColor={'white'}
                 width={'100%'}
-                paddingVertical="$4"
+                paddingTop="$2"
+                paddingBottom="$7"
                 paddingHorizontal="$5"
                 justifyContent="space-between"
+                alignContent='center'
                 alignItems="center"
             >
                 <View width={40}></View>
-                <SizableText marginBottom="$1" size="$2" textAlign="center">
+                <SizableText size="$2" textAlign="center">
                     {thoughtLogs.length > 0
                         ? thoughtLogs.length + ' logs'
                         : 'No logs'}
