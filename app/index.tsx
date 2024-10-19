@@ -5,7 +5,7 @@ import { ToastViewport } from '@tamagui/toast'
 import { format } from 'date-fns'
 import { Link, router } from 'expo-router'
 import { useSQLiteContext } from 'expo-sqlite'
-import { PlusIcon, Trash2Icon } from 'lucide-react-native'
+import { PenLineIcon, PlusIcon, Trash2Icon } from 'lucide-react-native'
 import { useEffect, useRef, useState } from 'react'
 import {
     Alert,
@@ -50,18 +50,6 @@ export default function HomeScreen() {
                 backgroundColor={'$background0'}
             >
                 <YStack gap="$2">
-                    <Link href="/log-thought-screen" asChild>
-                        <Button
-                            iconAfter={<PlusIcon />}
-                            size="$5"
-                            theme={'blue'}
-                            fontWeight={'600'}
-                        >
-                            {thoughtLogs.length === 0
-                                ? 'Add your first thought'
-                                : 'Add a new thought'}
-                        </Button>
-                    </Link>
                     <FlatList
                         style={{ height: '100%' }}
                         data={thoughtLogs}
@@ -74,6 +62,40 @@ export default function HomeScreen() {
                     />
                 </YStack>
             </View>
+            <XStack
+                position="absolute"
+                bottom={0}
+                borderTopWidth="$0.25"
+                borderTopColor={'$borderColor'}
+                shadowRadius={'$0.25'}
+                shadowOpacity={0.7}
+                backgroundColor={'white'}
+                width={'100%'}
+                paddingVertical="$4"
+                paddingHorizontal="$5"
+                justifyContent="space-between"
+                alignItems="center"
+            >
+                <View width={40}></View>
+                <SizableText marginBottom="$1" size="$2" textAlign="center">
+                    {thoughtLogs.length > 0
+                        ? thoughtLogs.length + ' logs'
+                        : 'No logs'}
+                </SizableText>
+                <Link href="/log-thought-screen" asChild>
+                    <Button
+                        width={40}
+                        backgroundColor={'$colorTransparent'}
+                        pressStyle={{
+                            bg: '$colorTransparent',
+                            borderColor: '$colorTransparent',
+                            opacity: 0.5,
+                        }}
+                    >
+                        <PenLineIcon color="orange" size={25} />
+                    </Button>
+                </Link>
+            </XStack>
         </GestureHandlerRootView>
     )
 }
