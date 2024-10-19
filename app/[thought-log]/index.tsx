@@ -48,43 +48,93 @@ export default function ViewThoughtScreen() {
             paddingTop="$2"
             paddingHorizontal="$5"
         >
-            <SizableText textAlign="center" size={'$2'} color={'lightslategray'}>
+            <SizableText
+                textAlign="center"
+                size={'$2'}
+                color={'lightslategray'}
+            >
                 {format(new Date(thoughtLog.created_at), 'dd/MM/yyyy HH:mm')}
             </SizableText>
-            <YStack gap="$6">
+            <YStack gap="$3">
                 <YStack>
-                    <Heading>Situation</Heading>
-                    <Paragraph size={'$6'}>{thoughtLog.situation}</Paragraph>
+                    <Heading textAlign="center" marginVertical="$2">
+                        Situation
+                    </Heading>
+                    <View
+                        padding="$3"
+                        borderRadius={'$3'}
+                        backgroundColor={'$gray2'}
+                    >
+                        <Paragraph size={'$6'}>
+                            {thoughtLog.situation}
+                        </Paragraph>
+                    </View>
                 </YStack>
                 <YStack>
-                    <Heading>Thoughts</Heading>
-                    <Paragraph size={'$6'}>{thoughtLog.thoughts}</Paragraph>
+                    <Heading textAlign="center" marginVertical="$2">
+                        Thoughts
+                    </Heading>
+                    <View
+                        padding="$3"
+                        borderRadius={'$3'}
+                        backgroundColor={'$gray2'}
+                    >
+                        <Paragraph size={'$6'}>{thoughtLog.thoughts}</Paragraph>
+                    </View>
                 </YStack>
                 <YStack>
-                    <Heading>Evidences</Heading>
-                    <Paragraph size={'$6'}>{thoughtLog.behaviors}</Paragraph>
+                    <Heading textAlign="center" marginVertical="$2">
+                        Evidences
+                    </Heading>
+                    <View
+                        padding="$3"
+                        borderRadius={'$3'}
+                        backgroundColor={'$gray2'}
+                    >
+                        <Paragraph size={'$6'}>
+                            {thoughtLog.behaviors}
+                        </Paragraph>
+                    </View>
                 </YStack>
                 <YStack>
-                    <Heading>Alternate thought</Heading>
-                    <Paragraph size={'$6'}>
-                        {thoughtLog.alternate_thought}
-                    </Paragraph>
+                    <Heading textAlign="center" marginVertical="$2">
+                        Alternate thought
+                    </Heading>
+                    <View
+                        padding="$3"
+                        borderRadius={'$3'}
+                        backgroundColor={'$gray2'}
+                    >
+                        <Paragraph size={'$6'}>
+                            {thoughtLog.alternate_thought}
+                        </Paragraph>
+                    </View>
                 </YStack>
-                <YStack>
-                    <Heading>Emotions</Heading>
-                    {thoughtLog.emotions.map((e) => {
-                        const emoji = emotions.find(
-                            (em) => em.name === e.name
-                        )?.emoji
-                        return (
-                            <YStack key={e.name}>
-                                <Paragraph size={'$6'}>{e.name}</Paragraph>
-                                <SizableText
-                                    size={'$6'}
-                                >{`${emoji} ${e.intensityStart}% -> ${e.intensityEnd}%`}</SizableText>
-                            </YStack>
-                        )
-                    })}
+                <YStack marginBottom="$5">
+                    <Heading textAlign="center" marginVertical="$2">
+                        Emotions
+                    </Heading>
+                    <View
+                        padding="$3"
+                        borderRadius={'$3'}
+                        backgroundColor={'$gray2'}
+                    >
+                        {thoughtLog.emotions.map((e) => {
+                            const emoji = emotions.find(
+                                (em) => em.name === e.name
+                            )?.emoji
+                            return (
+                                <YStack key={e.name}>
+                                    <SizableText marginTop='$2' size={'$6'}>
+                                        {e.name}
+                                    </SizableText>
+                                    <SizableText
+                                        size={'$6'}
+                                    >{`${emoji} ${e.intensityStart}% -> ${e.intensityEnd}%`}</SizableText>
+                                </YStack>
+                            )
+                        })}
+                    </View>
                 </YStack>
             </YStack>
         </ScrollView>
