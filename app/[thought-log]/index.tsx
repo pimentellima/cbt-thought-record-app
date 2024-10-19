@@ -61,7 +61,7 @@ export default function ViewThoughtScreen() {
                     <Paragraph size={'$6'}>{thoughtLog.thoughts}</Paragraph>
                 </YStack>
                 <YStack>
-                    <Heading>Behaviors</Heading>
+                    <Heading>Evidences</Heading>
                     <Paragraph size={'$6'}>{thoughtLog.behaviors}</Paragraph>
                 </YStack>
                 <YStack>
