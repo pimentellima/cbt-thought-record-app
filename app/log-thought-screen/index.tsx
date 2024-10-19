@@ -12,6 +12,7 @@ import {
 } from 'lucide-react-native'
 import { useState } from 'react'
 import { Keyboard, TouchableWithoutFeedback } from 'react-native'
+import { SizableText } from 'tamagui'
 import {
     Button,
     Form,
@@ -83,7 +84,7 @@ export default function LogThoughtScreen() {
             <Form
                 flex={1}
                 width={'100%'}
-                paddingVertical={'$6'}
+                paddingVertical={'$3'}
                 backgroundColor="$background"
                 onSubmit={async () => {
                     try {
@@ -99,6 +100,47 @@ export default function LogThoughtScreen() {
                     }
                 }}
             >
+                <View
+                    gap="$2"
+                    width="100%"
+                    marginBottom="$4"
+                    flexDirection="row"
+                    paddingHorizontal={'$4'}
+                    justifyContent="space-between"
+                    alignItems="center"
+                >
+                    <Button
+                        textProps={{ size: '$2' }}
+                        disabled={step === 1}
+                        opacity={step === 1 ? 0.5 : 1}
+                        width={'40%'}
+                        onPress={() => setStep((step) => step - 1)}
+                        icon={<ChevronLeftIcon />}
+                    >
+                        Previous
+                    </Button>
+                    <SizableText size="$2">{`${step}/6`}</SizableText>
+                    {step === 6 ? (
+                        <Form.Trigger asChild>
+                            <Button textProps={{ size: '$2' }} width={'40%'}>
+                                Submit
+                            </Button>
+                        </Form.Trigger>
+                    ) : (
+                        <Button
+                            textProps={{ size: '$2' }}
+                            width={'40%'}
+                            disabled={isNextStepDisabled}
+                            opacity={isNextStepDisabled ? 0.5 : 1}
+                            onPress={() => {
+                                setStep((step) => step + 1)
+                            }}
+                            iconAfter={<ChevronRightIcon />}
+                        >
+                            Next
+                        </Button>
+                    )}
+                </View>
                 <View paddingHorizontal={'$4'}>
                     {step === 1 && (
                         <StepOne
@@ -137,43 +179,6 @@ export default function LogThoughtScreen() {
                         />
                     )}
                 </View>
-                <View
-                    position="absolute"
-                    bottom="5%"
-                    gap="$2"
-                    flex={1}
-                    width="100%"
-                    paddingHorizontal="$4"
-                    flexDirection="row"
-                    justifyContent="space-between"
-                >
-                    <Button
-                        disabled={step === 1}
-                        opacity={step === 1 ? 0.5 : 1}
-                        width={'40%'}
-                        onPress={() => setStep((step) => step - 1)}
-                        icon={<ChevronLeftIcon />}
-                    >
-                        Previous
-                    </Button>
-                    {step === 6 ? (
-                        <Form.Trigger asChild>
-                            <Button width={'40%'}>Submit</Button>
-                        </Form.Trigger>
-                    ) : (
-                        <Button
-                            width={'40%'}
-                            disabled={isNextStepDisabled}
-                            opacity={isNextStepDisabled ? 0.5 : 1}
-                            onPress={() => {
-                                setStep((step) => step + 1)
-                            }}
-                            iconAfter={<ChevronRightIcon />}
-                        >
-                            Next
-                        </Button>
-                    )}
-                </View>
             </Form>
         </TouchableWithoutFeedback>
     )
@@ -203,8 +208,8 @@ function StepOne({
                 onChangeText={setSituation}
                 value={situation}
                 marginTop={'$4'}
-                minHeight={'50%'}
-                verticalAlign='top'
+                minHeight={'30%'}
+                verticalAlign="top"
                 fontSize={'$6'}
                 width={'100%'}
                 id="question-1"
@@ -237,8 +242,8 @@ function StepTwo({
                 onChangeText={setThoughts}
                 value={thoughts}
                 marginTop={'$4'}
-                minHeight={'50%'}
-                verticalAlign='top'
+                minHeight={'30%'}
+                verticalAlign="top"
                 fontSize={'$6'}
                 width={'100%'}
                 id="question-2"
@@ -393,8 +398,8 @@ function StepFour({
             <TextArea
                 onChangeText={setBehaviors}
                 value={behaviors}
-                minHeight={'50%'}
-                verticalAlign='top'
+                minHeight={'30%'}
+                verticalAlign="top"
                 marginTop={'$4'}
                 fontSize={'$6'}
                 width={'100%'}
@@ -431,8 +436,8 @@ function StepFive({
                 value={alternateThought}
                 marginTop={'$4'}
                 fontSize={'$6'}
-                minHeight={'50%'}
-                verticalAlign='top'
+                minHeight={'30%'}
+                verticalAlign="top"
                 width={'100%'}
                 id="question-5"
                 placeholder="type here..."
